@@ -23,17 +23,17 @@ end
 # in Rails.root/app/models/ecommerce/product.decorator
 module Ecommerce
   decorate Product do
+    decorated do
+      # Static methods may be called here.
+      attr_writer :discount_rate
+    end
+
     class_methods do
       # Methods defined here extend/decorate static methods on the
       # decorated class.
       def sorts
         super + ['discount_rate']
       end
-    end
-
-    decorated do
-      # Static methods may be called here.
-      attr_writer :discount_rate
     end
 
     # Methods defined here extend/decorate instance methods on the
@@ -94,7 +94,7 @@ end
 
 Other engines may want to namespace their customizations so as not to collide with further customizations:
 ```ruby
-# in ecommerce_blog/app/models/ecommerce_blog/product.decorator
+# in ecommerce_blog/app/models/ecommerce/product.decorator
 module Ecommerce
   decorate Product, with: 'blog' do
     def blog_entries
