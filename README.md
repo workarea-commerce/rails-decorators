@@ -7,7 +7,7 @@ We like the [`ActiveSupport::Concern`](http://api.rubyonrails.org/classes/Active
 
 ## Usage
 Say we have a class in an engine like so:
-```
+```ruby
 # in ecommerce/app/models/ecommerce/product.rb
 module Ecommerce
   class Product < ApplicationRecord
@@ -19,7 +19,7 @@ end
 ```
 
 `Rails::Decorators` allows customizing this class like so:
-```
+```ruby
 # in Rails.root/app/models/ecommerce/product.decorator
 module Ecommerce
   decorate Product do
@@ -48,7 +48,7 @@ end
 ```
 
 `Rails::Decorators` achieves this in a manner similar to `ActiveSupport::Concern` - it dynamically creates a module out of the block passed, and then prepends that into the original class. The above is equivalent to (note that this would need to be required using `require_dependency` as well):
-```
+```ruby
 # in Rails.root/app/models/ecommerce/product_decorator.rb
 module Ecommerce
   class Product
@@ -81,7 +81,7 @@ end
 ```
 
 You can also decorate more than one class at a time:
-```
+```ruby
 # in Rails.root/app/models/ecommerce/navigable.decorator
 module Ecommerce
   decorate Product, Category, Page do
@@ -93,7 +93,7 @@ end
 ```
 
 Other engines may want to namespace their customizations so as not to collide with further customizations:
-```
+```ruby
 # in ecommerce_blog/app/models/ecommerce_blog/product.decorator
 module Ecommerce
   decorate Product, with: 'blog' do
