@@ -3,7 +3,7 @@ Using [Rails engines](http://guides.rubyonrails.org/engines.html) extensively, w
 
 We also want junior developers to be able to jump in and be productive ASAP - not necessarily requiring they learn the techniques of `class_eval` to fix a bug or get a simple task done. Yes, we educate and promote this as the developer grows, but we want the barriers to contribution as low as possible.
 
-We like the [`ActiveSupport::Concern`](http://api.rubyonrails.org/classes/ActiveSupport/Concern.html) API, so this library mimics the API of `ActiveSupport::Concern` and layers on top some niceties for the specific task of customizing a Rails engine. For example, we don't like having to store decorated behavior in a separate directory (like https://github.com/parndt/decorators). Storing decorations in the same place as new classes makes it much easier to see the overall picture of how the engine has been customized/extended in one shot.
+We like the [`ActiveSupport::Concern`](http://api.rubyonrails.org/classes/ActiveSupport/Concern.html) API, so this library mimics the API of `ActiveSupport::Concern` and layers on top some niceties for the specific task of customizing a Rails engine. Also, we don't like having to store decorated behavior in a separate directory (like https://github.com/parndt/decorators). Storing decorations in the same place as new classes makes it much easier to see the overall picture of how the engine has been customized/extended in one shot.
 
 ## Usage
 Say we have a class in an engine like so:
@@ -24,8 +24,8 @@ end
 module Ecommerce
   decorate Product do
     decorated do
-      # Static methods may be called here.
-      attr_writer :discount_rate
+      # Class methods may be called here.
+      attr_writer :on_sale
     end
 
     class_methods do
