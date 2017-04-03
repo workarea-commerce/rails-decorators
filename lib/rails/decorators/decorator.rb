@@ -15,7 +15,7 @@ module Rails
         options = targets.extract_options!
 
         targets.each do |target|
-          unless target.is_a?(Module)
+          unless target.is_a?(Class)
             raise(
               InvalidDecorator,
               <<-eos.strip_heredoc
