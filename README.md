@@ -75,7 +75,7 @@ module Ecommerce
   Product.singleton_class.send(:prepend, Product::Decorator::ClassMethods)
   Product.class_eval do
     # Class methods may be called here.
-    attr_writer :discount_rate
+    attr_writer :on_sale
   end
 end
 ```
