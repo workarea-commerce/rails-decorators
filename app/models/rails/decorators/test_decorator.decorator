@@ -1,0 +1,2 @@
+class Rails::Decorators::TestDecorator
+end

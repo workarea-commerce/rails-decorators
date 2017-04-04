@@ -1,0 +1,5 @@
+decorate Rails::Decorators::TestModel do
+  def foo
+    "#{super} baz"
+  end
+end
