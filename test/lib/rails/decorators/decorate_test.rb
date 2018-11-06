@@ -29,6 +29,7 @@ class DecorateTest < Minitest::Test
       end
     end
 
+    before_decorate { alias_method :foobar, :foo }
     decorated { attr_reader :test }
 
     def foo
@@ -52,6 +53,7 @@ class DecorateTest < Minitest::Test
     assert(TestClass.new.respond_to?(:test))
     assert_equal('bar|baz', TestClass.new.foo)
     assert_equal('bar|baz', TestClass.foo)
+    assert_equal('bar', TestClass.new.foobar)
   end
 
   def test_subclass_decoration
