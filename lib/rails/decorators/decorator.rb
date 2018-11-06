@@ -85,6 +85,10 @@ module Rails
       end
 
       def prepend_features(base)
+        if instance_variable_defined?(:@_before_decorate_block)
+          base.class_eval(&@_before_decorate_block)
+        end
+
         super
 
         if const_defined?(:ClassMethodsDecorator)
@@ -96,6 +100,10 @@ module Rails
         if instance_variable_defined?(:@_decorated_block)
           base.class_eval(&@_decorated_block)
         end
+      end
+
+      def before_decorate(&block)
+        instance_variable_set(:@_before_decorate_block, block)
       end
 
       def decorated(&block)

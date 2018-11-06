@@ -23,8 +23,13 @@ end
 # in Rails.root/app/models/ecommerce/product.decorator
 module Ecommerce
   decorate Product do
+    before_decorate do
+      # Class methods may be called here. Evaluates before prepending module.
+      alias_method :regular_price, :price
+    end
+
     decorated do
-      # Class methods may be called here.
+      # Class methods may be called here. Evaluates after prepending module.
       attr_writer :on_sale
     end
 
@@ -71,10 +76,14 @@ module Ecommerce
     end
   end
 
+  Product.class_eval do
+    # Class methods may be called here. Evaluates before prepending module.
+    alias_method :regular_price, :price
+  end
   Product.send(:prepend, Product::Decorator)
   Product.singleton_class.send(:prepend, Product::Decorator::ClassMethods)
   Product.class_eval do
-    # Class methods may be called here.
+    # Class methods may be called here. Evaluates after prepending module.
     attr_writer :on_sale
   end
 end
