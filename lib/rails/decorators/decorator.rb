@@ -51,7 +51,8 @@ module Rails
             )
           end
 
-          decorator_name = "#{options[:with].to_s.camelize}#{target.to_s.demodulize}Decorator"
+          namespace = target.to_s.remove('::')
+          decorator_name = "#{options[:with].to_s.camelize}#{namespace}Decorator"
 
           if target.const_defined?(decorator_name)
             # We are probably reloading in Rails development env if this happens
