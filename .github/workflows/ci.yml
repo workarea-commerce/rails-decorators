@@ -1,0 +1,21 @@
+name: CI
+on: [push]
+
+jobs:
+  static_analysis:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: workarea-commerce/ci/bundler-audit@v1
+    - uses: workarea-commerce/ci/rubocop@v1
+
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-ruby@v1
+      with:
+        ruby-version: 2.6.x
+    - uses: workarea-commerce/ci/test@v1
+      with:
+        command: bin/rails test test/**/*_test.rb
