@@ -7,4 +7,3 @@ module Rails
     end
   end
 end
-
