@@ -106,6 +106,52 @@ end
 
 It is strongly suggested you update your editor of choice to use Ruby syntax highlighting on \*.decorator files.
 
+### Case Study: Modifying Devise
+
+Let's examine a more real-world case: In the [Devise OmniAuth How-To
+Article](https://github.com/heartcombo/devise/wiki/OmniAuth:-Overview),
+the maintainers instruct users to create a new controller named
+`Users::OmniauthCallbacksController` that inherits from
+`Devise::OmniauthCallbacksController`, and override the entire class in
+the `devise_for` method by supplying the name of the controller to use.
+This has always been a point of contention for some as it's quite
+difficult to understand why you need to do this if you don't have a lot
+of experience with Rails applications.
+
+However, if you had `rails-decorators` installed, you don't need to do
+any of that. Just decorate the controller supplied by Devise in
+**app/controllers/devise/omniauth_callbacks_controller.decorator**!
+
+```ruby
+module Devise
+  decorate OmniauthCallbacksController do
+    # We're using Facebook as an example here so it can be directly
+    # translated from the aforementioned article...
+    def facebook
+      # You need to implement the method below in your model (e.g. app/models/user.rb)
+      @user = User.from_omniauth(request.env["omniauth.auth"])
+
+      if @user.persisted?
+        sign_in_and_redirect @user, event: :authentication #this will throw if @user is not activated
+        set_flash_message(:notice, :success, kind: "Facebook") if is_navigational_format?
+      else
+        session["devise.facebook_data"] = request.env["omniauth.auth"]
+        redirect_to new_user_registration_url
+      end
+    end
+
+    def failure
+      redirect_to root_path
+    end
+  end
+end
+```
+
+With `rails-decorators`, you get to skip about 3 or 4 paragraphs of docs
+and go right to the `.from_omniauth` definition. Decorating saves both
+time and mental energy so you can get back to actually writing your
+application.
+
 ## Installation
 Add this line to your application's Gemfile:
 
