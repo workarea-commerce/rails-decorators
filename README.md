@@ -47,7 +47,7 @@ module Ecommerce
 end
 ```
 
-`Rails::Decorators` achieves this in a manner similar to `ActiveSupport::Concern` - it dynamically creates a module out of the block passed, and then prepends that into the original class. The above is equivalent to (note that this would need to be required using `require_dependency` as well):
+`Rails::Decorators` achieves this in a manner similar to `ActiveSupport::Concern` - it dynamically creates a module out of the block passed, and then prepends that into the original class. The above is equivalent to (note that this would need to be required as well):
 ```ruby
 # in Rails.root/app/models/ecommerce/product_decorator.rb
 module Ecommerce
