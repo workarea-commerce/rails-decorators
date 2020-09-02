@@ -1,16 +1,6 @@
 module Rails
   module Decorators
     module Decorator
-      def self.loader(roots)
-        Proc.new do
-          roots.each do |root|
-            decorators = Dir.glob("#{root}/app/**/*.#{Rails::Decorators.extension}")
-            decorators.sort!
-            decorators.each { |d| require_dependency(d) }
-          end
-        end
-      end
-
       def self.decorate(*targets, &module_definition)
         options = targets.extract_options!
 
@@ -19,7 +9,6 @@ module Rails
             raise(
               InvalidDecorator,
               <<-eos.strip_heredoc
-
                 Problem:
                   You cannot decorate a Module
                 Summary:
@@ -37,7 +26,6 @@ module Rails
             raise(
               InvalidDecorator,
               <<-eos.strip_heredoc
-
                 Problem:
                   Rails::Decorators doesn't work with helpers.
                 Summary:
@@ -61,7 +49,6 @@ module Rails
             raise(
               InvalidDecorator,
               <<-eos.strip_heredoc
-
                 Problem:
                   #{decorator_name} is already defined in #{target.name}.
                 Summary:

@@ -1,3 +1,5 @@
+require 'zeitwerk'
+
 module Rails
   module Decorators
     mattr_accessor :extension
@@ -8,7 +10,7 @@ end
 require 'rails/decorators/engine'
 require 'rails/decorators/version'
 require 'rails/decorators/application'
-require 'rails/decorators/active_support'
 require 'rails/decorators/decorator'
 require 'rails/decorators/invalid_decorator'
 require 'rails/decorators/object'
+require 'rails/decorators/zeitwerk'
