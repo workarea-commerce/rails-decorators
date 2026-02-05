@@ -5,17 +5,18 @@ jobs:
   static_analysis:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v4
     - uses: workarea-commerce/ci/bundler-audit@v1
     - uses: workarea-commerce/ci/rubocop@v1
 
   tests:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - uses: actions/setup-ruby@v1
+    - uses: actions/checkout@v4
+    - uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 2.6.x
+        ruby-version: 2.6
+        bundler-cache: true
     - name: Install Dependencies
       run: |
         sudo apt-get install -y libsqlite3-dev
