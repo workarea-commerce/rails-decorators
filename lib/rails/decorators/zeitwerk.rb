@@ -1,32 +1,26 @@
 module Zeitwerk
   class Loader
     module RailsDecorators
-      def do_preload
-        super
-        load_decorators
+      # Registers an on_setup callback that loads all decorator files
+      # found under this loader's root directories. Called by the engine.
+      def register_rails_decorators
+        on_setup do
+          load_decorator_files
+        end
       end
 
-      def load_decorators
-        decorator_ext = /\.#{Rails::Decorators.extension}$/
-        queue = []
-        actual_root_dirs.each do |root_dir, namespace|
-          queue << [namespace, root_dir] unless eager_load_exclusions.member?(root_dir)
-        end
+      private
 
-        while dir_to_load = queue.shift
-          namespace, dir = dir_to_load
+      def load_decorator_files
+        decorator_ext = ".#{Rails::Decorators.extension}"
+        roots_hash = instance_variable_get(:@roots) || {}
+        exclusions = instance_variable_get(:@eager_load_exclusions) || Set.new
 
-          ls(dir) do |basename, abspath|
-            if abspath =~ decorator_ext
-              load(abspath)
-            elsif dir?(abspath) && !root_dirs.key?(abspath)
-              if collapse_dirs.member?(abspath)
-                queue << [namespace, abspath]
-              else
-                cname = inflector.camelize(basename, abspath)
-                queue << [namespace.const_get(cname, false), abspath]
-              end
-            end
+        roots_hash.each_key do |root_dir|
+          next if exclusions.member?(root_dir)
+
+          Dir.glob("#{root_dir}/**/*#{decorator_ext}").sort.each do |abspath|
+            load(abspath)
           end
         end
       end

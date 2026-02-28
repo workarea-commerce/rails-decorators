@@ -13,9 +13,11 @@ Gem::Specification.new do |s|
   s.summary     = "Rails::Decorators provides a clean, familiar API for decorating the behavior of a Rails engine."
   s.license     = "MIT"
 
+  s.required_ruby_version = [">= 2.7", "< 3.5"]
+
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
 
-  s.add_dependency "rails", ">= 6.0.x"
+  s.add_dependency "rails", ">= 6.0"
 
- s.add_development_dependency "sqlite3"
+  s.add_development_dependency "sqlite3"
 end

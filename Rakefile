@@ -18,7 +18,7 @@ APP_RAKEFILE = File.expand_path("../test/dummy/Rakefile", __FILE__)
 load 'rails/tasks/engine.rake'
 
 
-load 'rails/tasks/statistics.rake'
+# load 'rails/tasks/statistics.rake' # removed in Rails 8.2
 
 
 
